@@ -5,42 +5,53 @@
 // Initialize objects from the lib
 Homekit homekit;
 
-TCPClient client;
-byte server[] = { 74, 125, 224, 72 }; // Google
+// Create a TCP/HTTP service for local discovery and HAP accessory handling
+TCPServer server = TCPServer(80);
+
+// Create a EthernetBonjour service for MDNS registration & discovery
+EthernetBonjourClass Bonjour;
 
 int LED = D1;              // LED connected to D1
 
 
 void setup() {
-    // Call functions on initialized library objects that require hardware
+    WiFi.connect();
+
+    server.begin();
+
+    // Initialize EthernetBonjour service with local UDP reference
+    Bonjour.setUDP( &udp );
+
+    // Begin MDNS registration servcie with the name of the HAP accessory (will appear in Apple Home)
+    Bonjour.begin("particle");
+
+    // Start MDNS registration with TCP based service, using special HAP TXT records encoded as c-string
+    Bonjour.addServiceRecord("particle._hap",
+                                    80,
+                                    MDNSServiceTCP,
+                                    "\x4sf=1\x14id=3C:33:1B:21:B3:00\x6pv=1.0\x04\c#=1\x04s#=1\x4\ff=0\x04sf=1\x0Bmd=particle");
 
     HomekitAccessory Lightbulb = homekit.newAccessory( lightbulbType, "light" );
     homekit.addAccessory( Lightbulb );
     homekit.begin();
 
-    if (client.connect(server, 80))
-    {
-        Serial.println("connected");
-        client.println("GET /search?q=unicorn HTTP/1.0");
-        client.println("Host: www.google.com");
-        client.println("Content-Length: 0");
-        client.println();
-    }
-    else
-    {
-        Serial.println("connection failed");
-    }
 
-  pinMode(LED, OUTPUT);    // sets pin as output
+    pinMode(LED, OUTPUT);    // sets pin as output
 
 }
 
 void loop() {
 
-    if (client.available())
+    // Process MDNS UDP traffic once per loop
+    Bonjour.run();
+
+    // Check on TCP client status
+    TCPClient client = server.available();
+
+    if (client){
     {
         // Use the library's initialized objects and functions
-        homekit.process(  /* server */ );
+        homekit.process(  client );
 
         uint8_t onOff = Lightbulb.state("on");
         Serial.println("Lightbulb is ", onOff );
@@ -51,7 +62,7 @@ void loop() {
         else {
               digitalWrite(LED, LOW);  // sets the LED off
         }
-        
+
     }
 
     if (!client.connected())

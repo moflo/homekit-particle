@@ -17,16 +17,16 @@ Homekit::Homekit()
 void Homekit::begin()
 {
     // initialize hardware
-    Serial.println("called begin");
+//    Serial.println("called begin");
 }
 
 /**
  * Example method.
  */
-void Homekit::process()
+void Homekit::process( TCPClient client )
 {
     // do something useful
-    Serial.println("called process");
+//    Serial.println("called process");
     doit();
 }
 
@@ -35,5 +35,5 @@ void Homekit::process()
 */
 void Homekit::doit()
 {
-    Serial.println("called doit");
+//    Serial.println("called doit");
 }

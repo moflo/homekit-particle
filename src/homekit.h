@@ -4,7 +4,22 @@
  */
 
 // This will load the definition for common Particle variable types
-#include "Particle.h"
+#if defined(PARTICLE)
+#   include "application.h"
+#   include "Particle.h"
+#else
+struct TCPClient {
+    int type;
+};
+#endif
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+
 
 // Services Type
 typedef enum HomekitAccessoryType {
@@ -40,7 +55,7 @@ typedef enum CharacteristicType {
     currentTemperatureChar = 0x11,
     targetTemperatureChar = 0x35,
     currentHeatingCoolingStateChar = 0xF,
-    targetHeatingCoolingState =  ,33,
+    targetHeatingCoolingState =  0x33,
     temperatureDisplayUnitsChar = 0x36,
     identifyChar = 0x14,
     manufacturerChar = 0x20,
@@ -79,7 +94,7 @@ struct Characterist {
   uint16_t intValue;
   char * value;
   char * name;
-}
+};
 
 // Accessory Structure
 
@@ -89,8 +104,8 @@ struct HomekitAccessory {
   uint8_t type;
   uint8_t iid;
   char * name;
-  Characterist [ MAX_CHARACTERISTS ];
-}
+  struct Characterist Characteristics [ MAX_CHARACTERISTS ];
+};
 
 // This is your main class that users will import into their application
 class Homekit
@@ -109,7 +124,7 @@ public:
   /**
    * Example method
    */
-  void process();
+  void process( TCPClient client );
 
 private:
   /**
