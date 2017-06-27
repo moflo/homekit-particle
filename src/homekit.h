@@ -47,44 +47,44 @@ typedef enum HomekitAccessoryType {
 
 // Charactersitics type
 typedef enum CharacteristicType {
-    onChar = 0x25,
-    brightnessChar = 0x8,
-    saturationChar = 0x2F,
-    hueChar = 0x13,
-    currentHumidityChar = 0x10,
-    currentTemperatureChar = 0x11,
-    targetTemperatureChar = 0x35,
-    currentHeatingCoolingStateChar = 0xF,
+    onSetting = 0x25,
+    brightnessSetting = 0x8,
+    saturationSetting = 0x2F,
+    hueSetting = 0x13,
+    currentHumiditySetting = 0x10,
+    currentTemperatureSetting = 0x11,
+    targetTemperatureSetting = 0x35,
+    currentHeatingCoolingStateSetting = 0xF,
     targetHeatingCoolingState =  0x33,
-    temperatureDisplayUnitsChar = 0x36,
-    identifyChar = 0x14,
-    manufacturerChar = 0x20,
-    modelChar = 0x21,
-    nameChar = 0x23,
-    serialNumberChar = 0x30,
-    currentPositionChar = 0x6D,
-    positionStateChar = 0x72,
-    targetPositionChar = 0x7C,
-    airQualityChar = 0x95,
-    batteryLevelChar = 0x68,
-    chargingStateChar = 0x8F,
-    statusLowBatteryChar = 0x79,
-    configureBridgedAccessoryStatusChar = 0x9D,
-    discoverBridgedAccessoriesChar = 0x9E,
-    discoveredBridgedAccessoriesChar = 0x9F,
-    configureBridgedAccessoryChar = 0xA0,
-    reachableChar = 0x63,
-    linkQualityChar = 0x9C,
-    accessoryIdentifierChar = 0x57,
-    categoryChar = 0xA3,
-    outletInUseChar = 0x26,
-    currentDoorStateChar = 0xE,
-    targetDoorStateChar = 0x32,
-    obstructionDetectedChar = 0x24,
-    lockCurrentStateChar = 0x1D,
-    lockTargetStateChar = 0x1E,
-    securitySystemCurrentStateChar = 0x66,
-    securitySystemTargetStateChar = 0x67
+    temperatureDisplayUnitsSetting = 0x36,
+    identifySetting = 0x14,
+    manufacturerSetting = 0x20,
+    modelSetting = 0x21,
+    nameSetting = 0x23,
+    serialNumberSetting = 0x30,
+    currentPositionSetting = 0x6D,
+    positionStateSetting = 0x72,
+    targetPositionSetting = 0x7C,
+    airQualitySetting = 0x95,
+    batteryLevelSetting = 0x68,
+    chargingStateSetting = 0x8F,
+    statusLowBatterySetting = 0x79,
+    configureBridgedAccessoryStatusSetting = 0x9D,
+    discoverBridgedAccessoriesSetting = 0x9E,
+    discoveredBridgedAccessoriesSetting = 0x9F,
+    configureBridgedAccessorySetting = 0xA0,
+    reachableSetting = 0x63,
+    linkQualitySetting = 0x9C,
+    accessoryIdentifierSetting = 0x57,
+    categorySetting = 0xA3,
+    outletInUseSetting = 0x26,
+    currentDoorStateSetting = 0xE,
+    targetDoorStateSetting = 0x32,
+    obstructionDetectedSetting = 0x24,
+    lockCurrentStateSetting = 0x1D,
+    lockTargetStateSetting = 0x1E,
+    securitySystemCurrentStateSetting = 0x66,
+    securitySystemTargetStateSetting = 0x67
 
 } CharacteristicType_t;
 
@@ -101,34 +101,34 @@ struct Characterist {
 #define MAX_CHARACTERISTS 5
 
 struct HomekitAccessory {
-  uint8_t type;
+  HomekitAccessoryType_t type;
   uint8_t iid;
   char * name;
   struct Characterist Characteristics [ MAX_CHARACTERISTS ];
+  uint8_t count;
 };
 
 // This is your main class that users will import into their application
 class Homekit
 {
+    
 public:
-  /**
-   * Constructor
-   */
-  Homekit();
-
-  /**
-   * Example method
-   */
-  void begin();
-
-  /**
-   * Example method
-   */
-  void process( TCPClient client );
+    Homekit();
+    Homekit( HomekitAccessoryType type );
+    Homekit( HomekitAccessoryType type, const char *name );
+    ~Homekit();
+    HomekitAccessoryType getType();
+    const char * getName();
+    int getCharacteristicCount();
+    
+    HomekitAccessory newAccessory( HomekitAccessoryType type );
+    Characterist * newCharacteristic( CharacteristicType type );
+    void begin();
+    void process( TCPClient client );
 
 private:
-  /**
-   * Example private method
-   */
+    HomekitAccessory accessory;
+    char *name;
+    
   void doit();
 };

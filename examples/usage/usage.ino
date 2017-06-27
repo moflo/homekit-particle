@@ -3,7 +3,7 @@
 #include "homekit.h"
 
 // Initialize objects from the lib
-Homekit homekit;
+Homekit homekit = Homekit( lightbulbType );
 
 // Create a TCP/HTTP service for local discovery and HAP accessory handling
 TCPServer server = TCPServer(80);
@@ -31,8 +31,8 @@ void setup() {
                                     MDNSServiceTCP,
                                     "\x4sf=1\x14id=3C:33:1B:21:B3:00\x6pv=1.0\x04\c#=1\x04s#=1\x4\ff=0\x04sf=1\x0Bmd=particle");
 
-    HomekitAccessory Lightbulb = homekit.newAccessory( lightbulbType, "light" );
-    homekit.addAccessory( Lightbulb );
+    Characterist *light = homekit.newCharacteristic( onSetting );
+
     homekit.begin();
 
 
@@ -53,7 +53,7 @@ void loop() {
         // Use the library's initialized objects and functions
         homekit.process(  client );
 
-        uint8_t onOff = Lightbulb.state("on");
+        uint8_t onOff = light->intValue;
         Serial.println("Lightbulb is ", onOff );
 
         if ( onOff ) {
