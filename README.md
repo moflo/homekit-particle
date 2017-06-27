@@ -95,6 +95,7 @@ See the [examples](examples) folder for more details.
 
 ## Documentation
 
+See the [GitHub Repo](https://github.com/moflo/homekit-particle) for more details on the background and usage for this library.
 
 ## LICENSE
 Copyright 2017 moflo
