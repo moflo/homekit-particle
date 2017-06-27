@@ -1,33 +1,93 @@
 # homekit
 
-A Particle library for homekit
+A Particle library for Apple's HomeKit. Uses MDNS, TLV8 and private crypto libraries to present a Photon device as a HomeKit accessory.
 
-## Welcome to your library!
+## homekit background
 
-To get started, modify the sources in [src](src). Rename the example folder inside [examples](examples) to a more meaningful name and add additional examples in separate folders.
-
-To compile your example you can use `particle compile examples/usage` command in [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli#update-your-device-remotely) or use our [Desktop IDE](https://docs.particle.io/guide/tools-and-features/dev/#compiling-code).
-
-Libraries can also depend on other libraries. To add a dependency use [`particle library add`](https://docs.particle.io/guide/tools-and-features/cli#adding-a-library) or [library management](https://docs.particle.io/guide/tools-and-features/dev/#managing-libraries) in Desktop IDE.
-
-After the library is done you can upload it with `particle library upload` or `Upload` command in the IDE. This will create a private (only visible by you) library that you can use in other projects. If you wish to make your library public, use `particle library publish` or `Publish` command.
-
-_TODO: update this README_
+Apple's HomeKit group has recently provided accesses to their proprietary HomeKit Accessory Protocol specification for non-commercial use. This library is an implementation of that HAP protocol for the Particle.io Photon board, allowing you to control your device directly from the Home iOS app.
 
 ## Usage
 
-Connect XYZ hardware, add the homekit library to your project and follow this simple example:
+Connect Photon hardware, add the homekit library to your project and follow this simple example. Once the code is running on your Photon board, open the Home app on your iOS device and select the "Particle" accessory. In the example below, the Particle will appear as a "lightbulb" within the Home app, allow you to turn an LED on the board on & off.
+
 
 ```
 #include "homekit.h"
-Homekit homekit;
+
+// Initialize objects from the lib
+Homekit homekit = Homekit( lightbulbType );
+
+// Create a TCP/HTTP service for local discovery and HAP accessory handling
+TCPServer server = TCPServer(80);
+
+// Create a EthernetBonjour service for MDNS registration & discovery
+EthernetBonjourClass Bonjour;
+
+int LED = D1;              // LED connected to D1
+
 
 void setup() {
-  homekit.begin();
+    WiFi.connect();
+
+    server.begin();
+
+    // Initialize EthernetBonjour service with local UDP reference
+    Bonjour.setUDP( &udp );
+
+    // Begin MDNS registration servcie with the name of the HAP accessory (will appear in Apple Home)
+    Bonjour.begin("particle");
+
+    // Start MDNS registration with TCP based service, using special HAP TXT records encoded as c-string
+    Bonjour.addServiceRecord("particle._hap",
+                                    80,
+                                    MDNSServiceTCP,
+                                    "\x4sf=1\x14id=3C:33:1B:21:B3:00\x6pv=1.0\x04\c#=1\x04s#=1\x4\ff=0\x04sf=1\x0Bmd=particle");
+
+    Characterist *light = homekit.newCharacteristic( onSetting );
+
+    homekit.begin();
+
+
+    pinMode(LED, OUTPUT);    // sets pin as output
+
 }
 
 void loop() {
-  homekit.process();
+
+    // Process MDNS UDP traffic once per loop
+    Bonjour.run();
+
+    // Check on TCP client status
+    TCPClient client = server.available();
+
+    if (client){
+    {
+        // Use the library's initialized objects and functions
+        homekit.process(  client );
+
+        uint8_t onOff = light->intValue;
+        Serial.println("Lightbulb is ", onOff );
+
+        if ( onOff ) {
+              digitalWrite(LED, HIGH); // sets the LED on
+        }
+        else {
+              digitalWrite(LED, LOW);  // sets the LED off
+        }
+
+    }
+
+    if (!client.connected())
+    {
+
+        Serial.println();
+        Serial.println("disconnecting.");
+        client.stop();
+        for(;;);
+    
+    }
+
+
 }
 ```
 
@@ -35,27 +95,8 @@ See the [examples](examples) folder for more details.
 
 ## Documentation
 
-TODO: Describe `Homekit`
-
-## Contributing
-
-Here's how you can make changes to this library and eventually contribute those changes back.
-
-To get started, [clone the library from GitHub to your local machine](https://help.github.com/articles/cloning-a-repository/).
-
-Change the name of the library in `library.properties` to something different. You can add your name at then end.
-
-Modify the sources in <src> and <examples> with the new behavior.
-
-To compile an example, use `particle compile examples/usage` command in [Particle CLI](https://docs.particle.io/guide/tools-and-features/cli#update-your-device-remotely) or use our [Desktop IDE](https://docs.particle.io/guide/tools-and-features/dev/#compiling-code).
-
-After your changes are done you can upload them with `particle library upload` or `Upload` command in the IDE. This will create a private (only visible by you) library that you can use in other projects. Do `particle library add homekit_myname` to add the library to a project on your machine or add the homekit_myname library to a project on the Web IDE or Desktop IDE.
-
-At this point, you can create a [GitHub pull request](https://help.github.com/articles/about-pull-requests/) with your changes to the original library. 
-
-If you wish to make your library public, use `particle library publish` or `Publish` command.
 
 ## LICENSE
 Copyright 2017 moflo
 
-Licensed under the <insert your choice of license here> license
+Licensed under the GNU LPL license.
