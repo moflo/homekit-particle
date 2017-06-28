@@ -19,12 +19,12 @@ CCCFLAGS = -Wall -ggdb -std=c++0x -I. -O3 -fpermissive
 
 #build the app
 
-test: test.o src/homekit.o
-	$(CCC) test.o src/homekit.o -o test
+test: test.o src/homekit.o src/WebClient.o
+	$(CCC) test.o src/*.o -o test
 
 particle:
 	rm -f *.o
-	particle compile photon examples/usage/usage.ino src/homekit.*
+	particle compile photon examples/usage/usage.ino src/*.*
 
 clean::
 	rm -f *.o
