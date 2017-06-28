@@ -3,14 +3,15 @@
 /* homekit library by moflo
  */
 
+//#ifndef homekit_h
+//#define homekit_h 1
+
 // This will load the definition for common Particle variable types
 #if defined(PARTICLE)
 #   include "application.h"
 #   include "Particle.h"
 #else
-struct TCPClient {
-    int type;
-};
+#   include "test.h"
 #endif
 
 
@@ -101,11 +102,15 @@ struct Characterist {
 #define MAX_CHARACTERISTS 5
 
 struct HomekitAccessory {
-  HomekitAccessoryType_t type;
-  uint8_t iid;
-  char * name;
-  struct Characterist Characteristics [ MAX_CHARACTERISTS ];
-  uint8_t count;
+    HomekitAccessoryType_t type;
+    uint8_t iid;
+    char * name;
+    char * manufacturer;
+    char * model;
+    char * serialNumber;
+    struct Characterist Characteristics [ MAX_CHARACTERISTS ];
+    uint8_t count;
+    
 };
 
 // This is your main class that users will import into their application
@@ -132,3 +137,5 @@ private:
     
   void doit();
 };
+
+//#endif /* homekit */

@@ -10,6 +10,7 @@
 */
 
 #include "src/homekit.h"
+#include "src/WebClient.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -18,7 +19,6 @@
 #include <stdlib.h>
 
 using namespace std;
-
 
 
 void print_hex_memory(void *mem, int count) {
@@ -119,6 +119,85 @@ int main()
             
             assertNotEqual(light->intValue, 99, "intValue not equal", &error_count);
 
+            
+        }
+        {
+            cout << "WebClient - initialization test ..." << endl;
+            
+            
+            TCPClient tcpStream;
+            const char data[140] = "POST /pair-setup HTTP/1.1\nHost: emulator._hap._tcp.local\nContent-Length: 3\nContent-Type: application/pairing+tlv8\n\r\x01\x01\x01\n\r";
+            tcpStream.stream = (char *)data;
+            WebClient client = WebClient( tcpStream );
+            
+            int method = 0;
+            char url[80];
+            int contentLen = 0;
+            
+            int result = client.readHTTPReqHeader(&method, url, &contentLen);
+            
+            assertNotEqual(result, 1, "result not equal", &error_count);
+            
+            assertNotEqual(method, HTTP_METHOD_POST, "method not equal", &error_count);
+            
+            assertNotEqual(url[0], '/', "url not equal", &error_count);
+            assertNotEqual(url[1], 'p', "url not equal", &error_count);
+            assertNotEqual(url[2], 'a', "url not equal", &error_count);
+            
+            assertNotEqual(contentLen, 3, "contentLen not equal", &error_count);
+            
+            
+        }
+        {
+            cout << "WebClient - parsing test ..." << endl;
+            
+            
+            TCPClient tcpStream;
+            const char data[140] = "GET /pair-setup HTTP/1.1\nHost: emulator._hap._tcp.local\nContent-Length: 4\nContent-Type: application/pairing+tlv8\n\r\x02\x02\x01\x02\n\r";
+            tcpStream.stream = (char *)data;
+            WebClient client = WebClient( tcpStream );
+            
+            int method = 0;
+            char url[80];
+            int contentLen = 0;
+            
+            int result = client.readHTTPReqHeader(&method, url, &contentLen);
+            
+            assertNotEqual(result, 1, "result not equal", &error_count);
+            
+            assertNotEqual(method, HTTP_METHOD_GET, "method not equal", &error_count);
+            
+            assertNotEqual(url[0], '/', "url not equal", &error_count);
+            assertNotEqual(url[1], 'p', "url not equal", &error_count);
+            assertNotEqual(url[2], 'a', "url not equal", &error_count);
+            
+            assertNotEqual(contentLen, 4, "contentLen not equal", &error_count);
+            
+            
+        }
+        {
+            cout << "WebClient - parsing error test ..." << endl;
+            
+            
+            TCPClient tcpStream;
+            const char data[140] = "XXX /pair-setup HTTP/1.1\nHost: emulator._hap._tcp.local\nContent-Length: 4\nContent-Type: application/pairing+tlv8\n\r\x02\x02\x01\x02\n\r";
+            tcpStream.stream = (char *)data;
+            WebClient client = WebClient( tcpStream );
+            
+            int method = 0;
+            char url[80];
+            int contentLen = 0;
+            
+            int result = client.readHTTPReqHeader(&method, url, &contentLen);
+            
+            assertNotEqual(result, 0, "result not equal", &error_count);
+            
+            assertNotEqual(method, HTTP_METHOD_INVALID, "method not equal", &error_count);
+            
+            assertNotEqual(url[0], 0, "url not equal", &error_count);
+            
+            assertNotEqual(contentLen, 0, "contentLen not equal", &error_count);
+            
             
         }
 

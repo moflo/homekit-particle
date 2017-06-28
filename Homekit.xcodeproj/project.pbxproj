@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		91BBDB181F02C5A2009CBF0A /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91BBDB171F02C5A2009CBF0A /* test.cpp */; };
 		91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91BBDB1A1F02C5B1009CBF0A /* homekit.cpp */; };
+		91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F870F01F0345BC00F77259 /* WebClient.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,9 @@
 		91BBDB1F1F02C5C9009CBF0A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		91BBDB201F02C5C9009CBF0A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		91BBDB231F02D389009CBF0A /* usage.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = usage.ino; path = examples/usage/usage.ino; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		91F870F01F0345BC00F77259 /* WebClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebClient.cpp; sourceTree = "<group>"; };
+		91F870F11F0345BC00F77259 /* WebClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebClient.h; sourceTree = "<group>"; };
+		91F870F31F035DD400F77259 /* test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test.h; path = src/test.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				91BBDB171F02C5A2009CBF0A /* test.cpp */,
+				91F870F31F035DD400F77259 /* test.h */,
 			);
 			path = Homekit;
 			sourceTree = "<group>";
@@ -81,6 +86,8 @@
 			children = (
 				91BBDB1A1F02C5B1009CBF0A /* homekit.cpp */,
 				91BBDB1B1F02C5B1009CBF0A /* homekit.h */,
+				91F870F01F0345BC00F77259 /* WebClient.cpp */,
+				91F870F11F0345BC00F77259 /* WebClient.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -145,6 +152,7 @@
 			files = (
 				91BBDB181F02C5A2009CBF0A /* test.cpp in Sources */,
 				91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */,
+				91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
