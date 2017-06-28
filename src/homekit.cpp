@@ -103,6 +103,102 @@ void Homekit::process( TCPClient client )
     doit();
 }
 
+void Homekit::router(int method, const char *route)
+{
+
+    if( strstr( route, "/" ) )
+    {
+        // Respond OK, prompt user to pair with iOS device
+        
+    }
+    
+    if( strstr( route, "/identify" ) )
+    {
+        // Respond with device identification
+        
+    }
+    
+    if( strstr( route, "/pair-setup" ) )
+    {
+        // Respond with pair setup state & challenge
+        
+        // method == POST
+        respondControllerPairSetup();
+        
+    }
+    
+    if( strstr( route, "/pair-verify" ) )
+    {
+        // Respond with pair verification
+        
+    }
+    
+    if( strstr( route, "/accessories" ) )
+    {
+        // Respond with accessories information
+        
+    }
+    
+    if( strstr( route, "/characteristics" ) )
+    {
+        // Respond with characteristics information
+        
+    }
+
+    if( strstr( route, "/pairings" ) )
+    {
+        // Respond with device pairings information
+        
+    }
+
+}
+
+
+void Homekit::respondControllerPairSetup()
+{
+    // Parse and respond to /pair-setup call
+
+    tlv_t currentTLV = pairingState.commandTLV.object[0];
+    tlv_map_t response;
+    
+    switch (pairingState.state) {
+            
+        case kTLVType_State_None:
+            // Start pairing process
+            if (pairingState.commandTLV.count == 1
+                && currentTLV.type == kTLVType_Method
+                && currentTLV.data[0] == kTLVType_Method_PairSetup)
+            {
+
+                uint8_t key[17] = "DEADBEEFDEADBEEF";
+                uint8_t salt[17] = "DEADBEEFDEADBEEF";
+                
+                response.count = 3;
+                response.object[0] = tlv(kTLVType_State, kTLVType_State_M2);
+                response.object[1] = tlv(kTLVType_PublicKey_Accessory, key, 16);
+                response.object[2] = tlv(kTLVType_Salt, salt, 16);
+                
+            }
+            else
+            {
+                // Unexpected error send kTLVError_Unavailable
+                
+                response.count = 2;
+                response.object[0] = tlv(kTLVType_State, kTLVType_State_M2);
+                response.object[1] = tlv(kTLVType_Error, kTLVError_Unavailable);
+                
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Send serialized response
+    
+    
+}
+
 void Homekit::doit()
 {
 //    Serial.println("called doit");

@@ -11,6 +11,7 @@
 
 #include "src/homekit.h"
 #include "src/WebClient.h"
+#include "src/TLV8.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -200,7 +201,66 @@ int main()
             
             
         }
+        {
+            cout << "TLV8 - tlv creation test ..." << endl;
+            
+            tlv_t tlvTest = tlv();
+            
+            assertNotEqual(tlvTest.type, 0x00, "type not equal", &error_count);
+            
+        }
+        {
+            cout << "TLV8 - tlv data test ..." << endl;
+            
+            tlv_t tlvTest = tlv(kTLVType_State, kTLVType_State_M2);
+            
+            assertNotEqual(tlvTest.type, kTLVType_State, "type not equal", &error_count);
+            assertNotEqual(tlvTest.size, 0x01, "size not equal", &error_count);
+            assertNotEqual(tlvTest.data[0], kTLVType_State_M2, "data not equal", &error_count);
+            
+        }
+        {
+            cout << "TLV8 - tlv alloc test ..." << endl;
+            
+            const char string[9] = "DEADBEEF";
+            
+            tlv_t tlvTest = tlv(kTLVType_Salt, (uint8_t *)string, 8);
+            
+            assertNotEqual(tlvTest.type, kTLVType_Salt, "type not equal", &error_count);
+            assertNotEqual(tlvTest.size, 0x08, "size not equal", &error_count);
+            assertNotEqual(tlvTest.data[0], 'D', "data not equal", &error_count);
+            assertNotEqual(tlvTest.data[1], 'E', "data not equal", &error_count);
+            assertNotEqual(tlvTest.data[2], 'A', "data not equal", &error_count);
+            assertNotEqual(tlvTest.data[3], 'D', "data not equal", &error_count);
+            
+        }
+        {
+            cout << "TLV8 - tlv_map creation test" << endl;
+            
+            tlv_map_t response;
+            uint8_t key[17] = "DEADBEEFDEADBEEF";
+            uint8_t salt[17] = "DEADBEEFDEADBEEF";
+            
+            response.count = 2;
+            response.object[0] = tlv(kTLVType_State, kTLVType_State_M2);
+            response.object[1] = tlv(kTLVType_PublicKey_Accessory, key, 16);
+            response.object[2] = tlv(kTLVType_Salt, salt, 16);
 
+            assertNotEqual(response.count, 0x03, "count not equal", &error_count);
+
+            assertNotEqual(response.object[0].type, kTLVType_State, "type not equal", &error_count);
+            assertNotEqual(response.object[0].size, 0x01, "size not equal", &error_count);
+            assertNotEqual(response.object[0].data[0], kTLVType_State_M2, "data not equal", &error_count);
+            
+            assertNotEqual(response.object[1].type, kTLVType_PublicKey_Accessory, "type not equal", &error_count);
+            assertNotEqual(response.object[1].size, 0x10, "size not equal", &error_count);
+            assertNotEqual(response.object[1].data[0], 'D', "data not equal", &error_count);
+            
+            assertNotEqual(response.object[2].type, kTLVType_Salt, "type not equal", &error_count);
+            assertNotEqual(response.object[2].size, 0x10, "size not equal", &error_count);
+            assertNotEqual(response.object[2].data[0], 'D', "data not equal", &error_count);
+            
+        }
         cout << "\n\nError count == " << error_count << endl;
         
         return 1;
