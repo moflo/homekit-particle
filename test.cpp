@@ -12,6 +12,7 @@
 #include "src/homekit.h"
 #include "src/WebClient.h"
 #include "src/TLV8.h"
+#include "src/SRPClient.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -261,6 +262,21 @@ int main()
             assertNotEqual(response.object[2].data[0], 'D', "data not equal", &error_count);
             
         }
+        {
+            cout << "SRPClient - initialization test ..." << endl;
+            
+            
+            SRPClient client = SRPClient();
+            
+            uint8_t *salt = NULL;
+            uint8_t *key = NULL;
+            client.createSaltedVerificationKey(salt, key);
+            
+            assertNotEqual(key[0], 0x01, "type not equal", &error_count);
+
+        }
+        
+        
         cout << "\n\nError count == " << error_count << endl;
         
         return 1;

@@ -11,6 +11,7 @@
 		91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91BBDB1A1F02C5B1009CBF0A /* homekit.cpp */; };
 		91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F870F01F0345BC00F77259 /* WebClient.cpp */; };
 		91F870F61F04205E00F77259 /* TLV8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F870F41F04205E00F77259 /* TLV8.cpp */; };
+		91F870F91F045B9700F77259 /* SRPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F870F71F045B9700F77259 /* SRPClient.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,8 @@
 		91F870F31F035DD400F77259 /* test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test.h; path = src/test.h; sourceTree = SOURCE_ROOT; };
 		91F870F41F04205E00F77259 /* TLV8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLV8.cpp; sourceTree = "<group>"; };
 		91F870F51F04205E00F77259 /* TLV8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLV8.h; sourceTree = "<group>"; };
+		91F870F71F045B9700F77259 /* SRPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SRPClient.cpp; sourceTree = "<group>"; };
+		91F870F81F045B9700F77259 /* SRPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRPClient.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				91F870F11F0345BC00F77259 /* WebClient.h */,
 				91F870F41F04205E00F77259 /* TLV8.cpp */,
 				91F870F51F04205E00F77259 /* TLV8.h */,
+				91F870F71F045B9700F77259 /* SRPClient.cpp */,
+				91F870F81F045B9700F77259 /* SRPClient.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -157,6 +162,7 @@
 			files = (
 				91BBDB181F02C5A2009CBF0A /* test.cpp in Sources */,
 				91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */,
+				91F870F91F045B9700F77259 /* SRPClient.cpp in Sources */,
 				91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */,
 				91F870F61F04205E00F77259 /* TLV8.cpp in Sources */,
 			);

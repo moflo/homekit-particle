@@ -127,8 +127,8 @@ void Homekit::router(int method, const char *route)
     {
         // Respond with pair setup state & challenge
         
-        // method == POST
-        respondControllerPairSetup();
+        if (method == HTTP_METHOD_POST)
+            respondControllerPairSetup();
         
     }
     
