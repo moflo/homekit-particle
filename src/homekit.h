@@ -15,6 +15,7 @@
 #endif
 
 #include "TLV8.h"
+#include "WebClient.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -221,6 +222,8 @@ private:
     void doit();
     
     void respondControllerPairSetup();
+    void respondControllerCharacteristicsPUT();
+    void respondControllerCharacteristicsGET();
     
 };
 

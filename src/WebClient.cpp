@@ -46,6 +46,7 @@ uint8_t WebClient::writeHTTPReqHeader( int method, const char* url, int contentL
     {
         case HTTP_METHOD_GET: client.write( "GET" ); break;
         case HTTP_METHOD_POST: client.write( "POST" ); break;
+        case HTTP_METHOD_PUT: client.write( "PUT" ); break;
         default:
         case HTTP_METHOD_HEAD: client.write( "HEAD" ); break;
     }
@@ -281,6 +282,8 @@ int WebClient::getHTTPMethodFromStr( const char* str )
         result = HTTP_METHOD_HEAD;
     else if( strstr( str, "POST" ) )
         result = HTTP_METHOD_POST;
+    else if( strstr( str, "PUT" ) )
+        result = HTTP_METHOD_PUT;
     
     return result;
 }

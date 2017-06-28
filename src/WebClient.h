@@ -32,6 +32,7 @@
 #define HTTP_METHOD_HEAD				( 0x00 )
 #define HTTP_METHOD_GET					( 0x01 )
 #define HTTP_METHOD_POST				( 0x02 )
+#define HTTP_METHOD_PUT                 ( 0x03 )
 #define HTTP_METHOD_INVALID				( -1 )
 
 #define HTTP_STATUS_200_OK				( 200 )
