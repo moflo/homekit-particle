@@ -180,7 +180,7 @@ void Homekit::respondControllerPairSetup()
     // Parse and respond to /pair-setup call
 
     tlv_t requestTLV = pairingState.commandTLV.object[0];
-    tlv_map_t response;
+    tlv_map_t response = tlv_map();
     
     switch (pairingState.state) {
             
@@ -194,10 +194,9 @@ void Homekit::respondControllerPairSetup()
                 uint8_t key[17] = "DEADBEEFDEADBEEF";
                 uint8_t salt[17] = "DEADBEEFDEADBEEF";
                 
-                response.count = 3;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M2);
-                response.object[1] = tlv(kTLVType_PublicKey_Accessory, key, 16);
-                response.object[2] = tlv(kTLVType_Salt, salt, 16);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M2) );
+                response.insert( tlv(kTLVType_PublicKey_Accessory, key, 16) );
+                response.insert( tlv(kTLVType_Salt, salt, 16) );
              
                 pairingState.state = kTLVType_State_M3;
             }
@@ -205,9 +204,8 @@ void Homekit::respondControllerPairSetup()
             {
                 // Unexpected error send kTLVError_Unavailable
                 
-                response.count = 2;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M2);
-                response.object[1] = tlv(kTLVType_Error, kTLVError_Unavailable);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M2) );
+                response.insert( tlv(kTLVType_Error, kTLVError_Unavailable) );
              
                 pairingState.state = kTLVType_State_None;
 
@@ -228,9 +226,8 @@ void Homekit::respondControllerPairSetup()
                 
                 uint8_t accesssory_proof[17] = "DEADBEEFDEADBEEF";
                 
-                response.count = 2;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M4);
-                response.object[1] = tlv(kTLVType_Proof_Accessory, accesssory_proof, 16);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M4) );
+                response.insert( tlv(kTLVType_Proof_Accessory, accesssory_proof, 16) );
                 
                 pairingState.state = kTLVType_State_M5;
 
@@ -239,9 +236,8 @@ void Homekit::respondControllerPairSetup()
             {
                 // Unexpected error send kTLVError_Unavailable
                 
-                response.count = 2;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M4);
-                response.object[1] = tlv(kTLVType_Error, kTLVError_Authentication);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M4) );
+                response.insert( tlv(kTLVType_Error, kTLVError_Authentication) );
                 
                 pairingState.state = kTLVType_State_None;
 
@@ -265,9 +261,8 @@ void Homekit::respondControllerPairSetup()
                 uint8_t authTag[17] = "DEADBEEFDEADBEEF";
                 uint8_t ChaCha20[17] = "DEADBEEFDEADBEEF";
                 
-                response.count = 2;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M6);
-                response.object[1] = tlv(kTLVType_EncryptedData_Accessory, ChaCha20, 16);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M6) );
+                response.insert( tlv(kTLVType_EncryptedData_Accessory, ChaCha20, 16) );
              
                 pairingState.state = kTLVType_State_None;
 
@@ -282,9 +277,8 @@ void Homekit::respondControllerPairSetup()
             {
                 // Unexpected error send kTLVError_Unavailable
                 
-                response.count = 2;
-                response.object[0] = tlv(kTLVType_State, kTLVType_State_M6);
-                response.object[1] = tlv(kTLVType_Error, kTLVError_Authentication);
+                response.insert( tlv(kTLVType_State, kTLVType_State_M6) );
+                response.insert( tlv(kTLVType_Error, kTLVError_Authentication) );
                 
                 pairingState.state = kTLVType_State_None;
 

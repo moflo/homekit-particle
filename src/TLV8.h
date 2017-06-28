@@ -46,6 +46,12 @@ typedef struct tlv_map
     struct tlv object[ TLV8_MAP_SIZE ];
     uint8_t count; // keep track of tlv elements used
 
+    tlv_map() { count = 0; }
+    tlv_map(tlv_t tlv1) { count = 0; insert(tlv1); }
+    tlv_map(tlv_t tlv1, tlv_t tlv2) { count = 0; insert(tlv1); insert(tlv2); }
+    tlv_map(tlv_t tlv1, tlv_t tlv2, tlv_t tlv3) { insert(tlv1); insert(tlv2); insert(tlv3); }
+    void insert(tlv_t tlv) { if (count < TLV8_MAP_SIZE) { object[count++] = tlv; } }
+
 } tlv_map_t;
 
 typedef enum tlv_result {
