@@ -263,17 +263,38 @@ int main()
             
         }
         {
-            cout << "SRPClient - initialization test ..." << endl;
+            cout << "SRPClient - SHA51 initialization test ..." << endl;
             
             
             SRPClient client = SRPClient();
             
-            uint8_t *salt = NULL;
-            uint8_t *key = NULL;
-            client.createSaltedVerificationKey(salt, key);
             
-            assertNotEqual(key[0], 0x01, "type not equal", &error_count);
+            uint8_t * key = (uint8_t *)malloc(20);
+            static char testString[6] = "alice";
+            
+            client.crypto_hash_sha1(key, (uint8_t *)testString, 5);
 
+            assertNotEqual(key[0], 0x52, "data not equal", &error_count);
+            assertNotEqual(key[1], 0x2B, "data not equal", &error_count);
+            assertNotEqual(key[19], 0xe8, "data not equal", &error_count);
+
+        }
+        {
+            cout << "SRPClient - SHA512 initialization test ..." << endl;
+            
+            
+            SRPClient client = SRPClient();
+            
+            
+            uint8_t * key = (uint8_t *)malloc(64);
+            static char testString[6] = "alice";
+            
+            client.crypto_hash_sha512(key, (uint8_t *)testString, 5);
+            
+            assertNotEqual(key[0], 0x40, "data not equal", &error_count);
+            assertNotEqual(key[1], 0x8B, "data not equal", &error_count);
+            assertNotEqual(key[63], 0x59, "data not equal", &error_count);
+            
         }
         
         

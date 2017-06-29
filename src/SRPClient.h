@@ -26,6 +26,7 @@ public:
     
     void createSaltedVerificationKey(uint8_t * salt, uint8_t * verificationKey );
     int crypto_hash_sha512(unsigned char *out, const unsigned char *in, unsigned long long inlen);
+    int crypto_hash_sha1(unsigned char *out, const unsigned char *in, unsigned long long inlen);
 
 private:
     uint8_t * _salt;
