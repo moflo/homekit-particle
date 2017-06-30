@@ -263,7 +263,7 @@ int main()
             
         }
         {
-            cout << "SRPClient - SHA51 initialization test ..." << endl;
+            cout << "SRPClient - SHA-1 initialization test ..." << endl;
             
             
             SRPClient client = SRPClient();
@@ -278,6 +278,30 @@ int main()
             assertNotEqual(key[1], 0x2B, "data not equal", &error_count);
             assertNotEqual(key[19], 0xe8, "data not equal", &error_count);
 
+            static char testABC[4] = "abc";
+            client.crypto_hash_sha1(key, (uint8_t *)testABC, 3);
+            
+            // A9993E36 4706816A BA3E2571 7850C26C 9CD0D89D
+            // A9 99 3E 36 47 06 81 6A BA 3E 25 71 78 50 C2 6C 9C D0 D8 9D
+            
+            assertNotEqual(key[0], 0xA9, "data not equal", &error_count);
+            assertNotEqual(key[1], 0x99, "data not equal", &error_count);
+            assertNotEqual(key[4], 0x47, "data not equal", &error_count);
+            assertNotEqual(key[5], 0x06, "data not equal", &error_count);
+            assertNotEqual(key[18], 0xD8, "data not equal", &error_count);
+            assertNotEqual(key[19], 0x9D, "data not equal", &error_count);
+
+            
+            static char testFull[57] = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
+            client.crypto_hash_sha1(key, (uint8_t *)testFull, 56);
+            
+            // 84983E44 1C3BD26E BAAE4AA1 F95129E5 E54670F1
+            // 84 98 3E 44 1C 3B D2 6E BA AE 4A A1 F9 51 29 E5 E5 46 70 F1
+            
+            assertNotEqual(key[0], 0x84, "data not equal", &error_count);
+            assertNotEqual(key[19], 0xF1, "data not equal", &error_count);
+
+            
         }
         {
             cout << "SRPClient - SHA512 initialization test ..." << endl;
@@ -296,7 +320,17 @@ int main()
             assertNotEqual(key[63], 0x59, "data not equal", &error_count);
             
         }
-        
+        {
+            cout << "SRPClient - saltes verification test ..." << endl;
+
+            SRPClient client = SRPClient();
+
+            uint8_t * salt = (uint8_t *)malloc(20);
+            uint8_t * key = (uint8_t *)malloc(20);
+
+            client.createSaltedVerificationKey(salt, key);
+            
+        }
         
         cout << "\n\nError count == " << error_count << endl;
         

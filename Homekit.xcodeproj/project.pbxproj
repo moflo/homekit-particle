@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		913ECAA21F05CD6000E910C5 /* srp.c in Sources */ = {isa = PBXBuildFile; fileRef = 913ECAA01F05CD6000E910C5 /* srp.c */; };
+		913ECAA71F05CD7000E910C5 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 913ECAA41F05CD7000E910C5 /* sha1.c */; };
+		913ECAA81F05CD7000E910C5 /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = 913ECAA51F05CD7000E910C5 /* sha256.c */; };
+		913ECAA91F05CD7000E910C5 /* sha512.c in Sources */ = {isa = PBXBuildFile; fileRef = 913ECAA61F05CD7000E910C5 /* sha512.c */; };
+		913ECAAC1F05CD7900E910C5 /* mini-gmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 913ECAAA1F05CD7900E910C5 /* mini-gmp.c */; };
 		91BBDB181F02C5A2009CBF0A /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91BBDB171F02C5A2009CBF0A /* test.cpp */; };
 		91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91BBDB1A1F02C5B1009CBF0A /* homekit.cpp */; };
 		91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F870F01F0345BC00F77259 /* WebClient.cpp */; };
@@ -27,6 +32,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		913ECAA01F05CD6000E910C5 /* srp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = srp.c; sourceTree = "<group>"; };
+		913ECAA11F05CD6000E910C5 /* srp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srp.h; sourceTree = "<group>"; };
+		913ECAA31F05CD7000E910C5 /* sha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha.h; sourceTree = "<group>"; };
+		913ECAA41F05CD7000E910C5 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
+		913ECAA51F05CD7000E910C5 /* sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha256.c; sourceTree = "<group>"; };
+		913ECAA61F05CD7000E910C5 /* sha512.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha512.c; sourceTree = "<group>"; };
+		913ECAAA1F05CD7900E910C5 /* mini-gmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "mini-gmp.c"; sourceTree = "<group>"; };
+		913ECAAB1F05CD7900E910C5 /* mini-gmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mini-gmp.h"; sourceTree = "<group>"; };
+		913ECAAD1F05CD8C00E910C5 /* md32_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md32_common.h; sourceTree = "<group>"; };
 		9163EA621F02C5690098C4B8 /* Homekit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Homekit; sourceTree = BUILT_PRODUCTS_DIR; };
 		91BBDB171F02C5A2009CBF0A /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = SOURCE_ROOT; };
 		91BBDB1A1F02C5B1009CBF0A /* homekit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = homekit.cpp; sourceTree = "<group>"; };
@@ -98,6 +112,15 @@
 				91F870F51F04205E00F77259 /* TLV8.h */,
 				91F870F71F045B9700F77259 /* SRPClient.cpp */,
 				91F870F81F045B9700F77259 /* SRPClient.h */,
+				913ECAA01F05CD6000E910C5 /* srp.c */,
+				913ECAA11F05CD6000E910C5 /* srp.h */,
+				913ECAA31F05CD7000E910C5 /* sha.h */,
+				913ECAAD1F05CD8C00E910C5 /* md32_common.h */,
+				913ECAA41F05CD7000E910C5 /* sha1.c */,
+				913ECAA51F05CD7000E910C5 /* sha256.c */,
+				913ECAA61F05CD7000E910C5 /* sha512.c */,
+				913ECAAA1F05CD7900E910C5 /* mini-gmp.c */,
+				913ECAAB1F05CD7900E910C5 /* mini-gmp.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -162,7 +185,12 @@
 			files = (
 				91BBDB181F02C5A2009CBF0A /* test.cpp in Sources */,
 				91BBDB1C1F02C5B1009CBF0A /* homekit.cpp in Sources */,
+				913ECAA81F05CD7000E910C5 /* sha256.c in Sources */,
 				91F870F91F045B9700F77259 /* SRPClient.cpp in Sources */,
+				913ECAA91F05CD7000E910C5 /* sha512.c in Sources */,
+				913ECAAC1F05CD7900E910C5 /* mini-gmp.c in Sources */,
+				913ECAA21F05CD6000E910C5 /* srp.c in Sources */,
+				913ECAA71F05CD7000E910C5 /* sha1.c in Sources */,
 				91F870F21F0345BC00F77259 /* WebClient.cpp in Sources */,
 				91F870F61F04205E00F77259 /* TLV8.cpp in Sources */,
 			);
